@@ -1,0 +1,18 @@
+from pwn import *
+  
+#Open connection
+r = remote('mercury.picoctf.net', 43239)
+
+#Read input
+data = r.recv()
+print(data)
+
+#Seperate each line then convert from int to chr
+flag = ''
+for each in data.splitlines():
+    try:
+        flag += chr(int(each.strip()))
+    except:
+        print('Error: ', each)
+
+print(flag)
