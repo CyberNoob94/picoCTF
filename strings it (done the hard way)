@@ -1,0 +1,28 @@
+#Open file
+f = open('strings', 'rb')
+data = f.read()
+
+#Turn each byte of binary into a readable string
+converted = ''
+for each in data:
+    converted += chr(int(each))
+
+#Remove whitespace
+converted = converted.replace(" ","")
+converted = converted.replace('\n', '')
+converted = converted.replace('\t', '')
+
+#Use for loop to find possible flags, deliited by '{' and '}'
+print('starting for loop')
+start = None
+isStart = False
+for i in range(len(converted)):
+    if converted[i] == '{':
+        start = i
+        isStart = True
+    elif converted[i] in {'(','[',']',')'}:
+        start = None
+        isStart = False
+    if converted[i] == '}' and isStart:
+        isStart = False
+        print('picoCTF' + converted[start:i+1])
